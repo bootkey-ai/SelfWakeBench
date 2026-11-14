@@ -1,0 +1,50 @@
+schema_version = "1.1"
+
+[task]
+name = "bootkey/selfwake-vending"
+version = "3.0.0"
+description = """
+SelfWakeBench: the Prosus Vending Bench business on a clock that runs by itself.
+Six snack and drinks machines, three locations, 30 simulated days, EUR 1500 to
+start. One simulated day lasts a fixed number of real seconds from the agent's
+first action, the agent gets one message and no tool that moves time, and the
+days pass whether it is there or not. Scored on the final bank balance.
+"""
+authors = []
+keywords = ["long-horizon", "agentic", "business", "coherence", "vending-bench"]
+
+[metadata]
+difficulty = "hard"
+category = "long-horizon-agency"
+tags = ["long-horizon", "tool-use", "negotiation", "economics"]
+reward_kind = "continuous"
+reward_units = "EUR"
+reward_note = "Reward is the nonnegative final bank balance after completion; incomplete or bankrupt runs score zero."
+
+# Thirty simulated days is hundreds of tool calls and a simulated year is
+# thousands, so the agent gets real wall clock. This ceiling is sized for the
+# full-year variant; the default 30-day task finishes well inside it.
+[verifier]
+timeout_sec = 900.0
+
+[agent]
+timeout_sec = 43200.0
+
+[environment]
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+gpus = 0
+
+[[environment.mcp_servers]]
+name = "vending"
+transport = "streamable-http"
+url = "http://sim-server:8000/mcp"
+args = []
+
+[verifier.env]
+
+[environment.env]
+
+[solution.env]
